@@ -16,11 +16,12 @@
         :descriptor="descriptor"
         :language="language"
         :size="size"
+        :readonly="readonly"
         :background-color="backgroundColor"
         :bg-color-offset="bgColorOffset"
         :show-outer-error="showOuterError">
       </dynamic-form-item>
-      <el-form-item v-if="$slots.operations" class="operations" :label-width="labelWidth">
+      <el-form-item v-if="$slots.operations && !readonly" class="operations" :label-width="labelWidth">
         <slot name="operations"></slot>
       </el-form-item>
     </el-form>
@@ -60,6 +61,13 @@ export default {
     size: {
       type: String,
       default: 'small'
+    },
+    /**
+     * whether editable
+     */
+    readonly: {
+      type: Boolean,
+      default: false
     },
     /**
      * background-color of form

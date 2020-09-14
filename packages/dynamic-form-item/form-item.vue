@@ -14,6 +14,7 @@
     <dynamic-input
       v-if="!isComplexType(typeDescriptor.type)"
       v-model="_value"
+      :readonly="readonly"
       :size="size"
       :descriptor="typeDescriptor">
     </dynamic-input>
@@ -32,6 +33,7 @@
             :key="key"
             :label="(findTypeDescriptor(_descriptor)).label || key"
             :prop="prop ? prop + '.' + key : key"
+            :readonly="readonly"
             :descriptor="_descriptor"
             :language="language"
             :label-width="getLabelWidth(typeDescriptor.fields, fontSize)"
@@ -52,6 +54,7 @@
             :label="key"
             :prop="prop ? prop + '.' + key : key"
             :deletable="true"
+            :readonly="readonly"
             :descriptor="typeDescriptor.defaultField"
             :language="language"
             :label-width="getLabelWidth(_value, fontSize)"
@@ -59,7 +62,7 @@
             :show-outer-error="showOuterError"
             @delete="deleteKey(key)">
           </dynamic-form-item>
-          <el-form-item>
+          <el-form-item v-if="!readonly">
             <div class="add-key-input-group">
               <el-input v-model="hashMapKey" :placeholder="language.addKeyPlaceholder" :size="size"></el-input>
               <el-button type="primary" icon="el-icon-plus" :size="size" :disabled="!hashMapKey || _value[hashMapKey] !== undefined" @click="addHashMapKey" plain>{{ language.addKeyButtonText }}</el-button>
@@ -73,6 +76,7 @@
           <dynamic-input
             v-model="_value"
             :size="size"
+            :readonly="readonly"
             :descriptor="typeDescriptor.defaultField">
           </dynamic-input>
         </div>
@@ -83,6 +87,7 @@
             :key="key"
             :prop="prop ? prop + '.' + key : key"
             :deletable="true"
+            :readonly="readonly"
             :descriptor="typeDescriptor.defaultField"
             :language="language"
             label-width="0px"
@@ -90,13 +95,13 @@
             :show-outer-error="showOuterError"
             @delete="deleteItem(key)">
           </dynamic-form-item>
-          <div class="add-key-input-group">
+          <div class="add-key-input-group" v-if="!readonly">
             <el-button type="primary" icon="el-icon-plus" :size="size" @click="addArrayItem" plain>{{ language.addArrayItemButtonText }}</el-button>
           </div>
         </div>
       </template>
     </template>
-    <el-button v-if="deletable" class="delete-button" type="text" icon="el-icon-close" @click="emitDelete"></el-button>
+    <el-button v-if="deletable && !readonly" class="delete-button" type="text" icon="el-icon-close" @click="emitDelete"></el-button>
   </el-form-item>
 </template>
 
@@ -128,6 +133,13 @@ export default {
     size: {
       type: String,
       default: 'small'
+    },
+    /**
+     * whether readonly
+     */
+    readonly: {
+      type: Boolean,
+      default: false
     },
     /**
      * font-size of form

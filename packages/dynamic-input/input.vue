@@ -6,6 +6,8 @@
     v-bind="_bind"
     v-on="_on"
     :is="_name"
+    :readonly="readonly"
+    :disabled="name==='el-switch'?true:false"
     :size="size">
     <dynamic-component v-for="(component, index) in _children" :key="index" :component="component"></dynamic-component>
   </component>
@@ -16,6 +18,7 @@
     v-model.number="_value"
     v-bind="_bind"
     v-on="_on"
+    :readonly="readonly"
     :size="size">
   </el-input>
   <!-- enum type use el-select -->
@@ -26,6 +29,7 @@
     v-bind="_bind"
     v-on="_on"
     :class="{'multi-select': descriptor.multiple}"
+    :disabled="readonly"
     :size="size"
     :multiple="descriptor.multiple">
     <el-option v-for="option in _options" :key="option.label" :value="option.value" :label="option.label" :disabled="option.disabled"></el-option>
@@ -38,6 +42,7 @@
     v-model="_value"
     v-bind="_bind"
     v-on="_on"
+    :readonly="readonly"
     :size="size">
   </el-date-picker>
 </template>
@@ -62,6 +67,10 @@ export default {
   props: {
     value: {
       required: true
+    },
+    readonly: {
+      type: Boolean,
+      default: false
     },
     size: {
       type: String,
