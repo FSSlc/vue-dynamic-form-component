@@ -7,7 +7,7 @@
     v-on="_on"
     :is="_name"
     :readonly="readonly"
-    :disabled="name==='el-switch'?true:false"
+    :disabled="_name==='el-switch'?true:false"
     :size="size">
     <dynamic-component v-for="(component, index) in _children" :key="index" :component="component"></dynamic-component>
   </component>
