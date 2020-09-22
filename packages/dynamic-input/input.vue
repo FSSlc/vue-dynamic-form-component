@@ -45,6 +45,21 @@
     :readonly="readonly"
     :size="size">
   </el-date-picker>
+  <el-cascader
+    v-else-if="descriptor.type === 'cascader'"
+    ref="cascader"
+    :size="size"
+    v-bind="_bind"
+    v-model="_value"
+    class="dynamic-input"
+    :props="descriptor.props"
+    :options="descriptor.options"
+    @change="selectChangeCascader"
+    :multiple="descriptor.multiple"
+    :filterable="descriptor.filterable"
+    :show-all-levels="descriptor.showAllLevels"
+    :class="{'multi-select': descriptor.multiple}"
+  ></el-cascader>
 </template>
 
 <script>
@@ -58,7 +73,8 @@ const TYPE_COMPONENT_MAP = {
   integer: 'el-input-number',
   float: 'el-input-number',
   enum: 'el-select',
-  url: 'el-input'
+  url: 'el-input',
+  cascader: "el-cascader",
 }
 
 export default {
@@ -147,14 +163,33 @@ export default {
       }
       return []
     },
+    selectChangeCascader(value) {
+      if (typeof this.descriptor.onChange === "function") {
+        this.descriptor.onChange(value, this.prop);
+      }
+    },
+    onCascaderSelectChange(value) {
+      console.log(value);
+    },
     isSpecialType () {
-      return ['integer', 'float', 'number', 'enum', 'date'].includes(this.descriptor.type)
+      return ['integer', 'float', 'number', 'enum', 'date', 'cascader'].includes(this.descriptor.type)
     }
   },
   data () {
     return {}
   },
-  created () {},
+  created () {
+    if (this.descriptor.type === 'cascader') {
+      this.descriptor.validator = (rule, value) => {}
+    }
+  },
+  mounted() {
+    if (this.descriptor.type === 'cascader') {
+      this.descriptor.clear = () => {
+        this.$refs.cascader.handleClear()
+      }
+    }
+  },
   methods: {}
 }
 </script>
