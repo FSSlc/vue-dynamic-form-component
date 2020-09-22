@@ -4,6 +4,7 @@
       v-if="_value"
       ref="dynamic-form"
       :model="_value"
+      :disabled="disabled"
       :rules="descriptors">
       <dynamic-form-item
         v-for="(descriptor, key) in descriptors"
@@ -16,12 +17,11 @@
         :descriptor="descriptor"
         :language="language"
         :size="size"
-        :readonly="readonly"
         :background-color="backgroundColor"
         :bg-color-offset="bgColorOffset"
         :show-outer-error="showOuterError">
       </dynamic-form-item>
-      <el-form-item v-if="$slots.operations && !readonly" class="operations" :label-width="labelWidth">
+      <el-form-item v-if="$slots.operations" class="operations" :label-width="labelWidth">
         <slot name="operations"></slot>
       </el-form-item>
     </el-form>
@@ -44,6 +44,10 @@ export default {
       type: String,
       default: 'zh_CN'
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     /**
      * custom languages, format refer to packages/i18n.js
      */
@@ -61,13 +65,6 @@ export default {
     size: {
       type: String,
       default: 'small'
-    },
-    /**
-     * whether editable
-     */
-    readonly: {
-      type: Boolean,
-      default: false
     },
     /**
      * background-color of form

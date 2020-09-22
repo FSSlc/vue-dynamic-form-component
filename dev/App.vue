@@ -4,6 +4,7 @@
       v-model="data"
       ref="dynamic-form"
       lang="en_US"
+      :disabled="true"
       :descriptors="descriptors"
       :show-outer-error="false">
       <template slot="operations">
