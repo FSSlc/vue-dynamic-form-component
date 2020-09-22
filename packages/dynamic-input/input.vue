@@ -54,7 +54,6 @@
     class="dynamic-input"
     :props="descriptor.props"
     :options="descriptor.options"
-    @change="selectChangeCascader"
     :multiple="descriptor.multiple"
     :filterable="descriptor.filterable"
     :show-all-levels="descriptor.showAllLevels"
@@ -162,14 +161,6 @@ export default {
         return [this.descriptor.component.children]
       }
       return []
-    },
-    selectChangeCascader(value) {
-      if (typeof this.descriptor.onChange === "function") {
-        this.descriptor.onChange(value, this.prop);
-      }
-    },
-    onCascaderSelectChange(value) {
-      console.log(value);
     },
     isSpecialType () {
       return ['integer', 'float', 'number', 'enum', 'date', 'cascader'].includes(this.descriptor.type)
