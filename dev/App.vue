@@ -5,6 +5,7 @@
       ref="dynamic-form"
       lang="en_US"
       :disabled="false"
+      :deletable="false"
       :descriptors="descriptors"
       :show-outer-error="false">
       <template slot="operations">

@@ -10,6 +10,7 @@
         v-for="(descriptor, key) in descriptors"
         v-model="_value[key]"
         :key="key"
+        :deletable="deletable"
         :lang="lang"
         :label="findTypeDescriptor(descriptor).label || key"
         :prop="key"
@@ -86,6 +87,13 @@ export default {
     showOuterError: {
       type: Boolean,
       default: true
+    },
+    /**
+     * whether show delete button for array, hashmap, object type, default false
+     */
+    deletable: {
+      type: Boolean,
+      default: false
     },
     /**
      * darken sub-form's background-color with offset while get positive integer
