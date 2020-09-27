@@ -160,18 +160,6 @@ export default {
   data () {
     return {}
   },
-  created () {
-    if (this.descriptor.type === 'cascader') {
-      this.descriptor.validator = (rule, value) => {}
-    }
-  },
-  mounted() {
-    if (this.descriptor.type === 'cascader') {
-      this.descriptor.clear = () => {
-        this.$refs.cascader.handleClear()
-      }
-    }
-  },
   methods: {}
 }
 </script>

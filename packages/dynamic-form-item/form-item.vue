@@ -30,6 +30,8 @@
             v-for="(_descriptor, key) in typeDescriptor.fields"
             v-model="_value[key]"
             :key="key"
+            :deletable="true"
+            @delete="deleteObjectKey(typeDescriptor, key)"
             :label="(findTypeDescriptor(_descriptor)).label || key"
             :prop="prop ? prop + '.' + key : key"
             :descriptor="_descriptor"
@@ -217,6 +219,10 @@ export default {
     },
     emitDelete () {
       this.$emit('delete')
+    },
+    deleteObjectKey(typeDescriptor, key) {
+      this.$delete(this._value, key)
+      this.$delete(typeDescriptor.fields, key)
     },
     deleteKey (key) {
       this.$delete(this._value, key)
